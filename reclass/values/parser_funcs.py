@@ -8,7 +8,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import collections
+import collections.abc
 import enum
 import functools
 import pyparsing as pp
@@ -49,7 +49,7 @@ def _asList(x):
     return x
 
 def listify(w, modifier=_asList):
-    if (isinstance(w, collections.Iterable) and
+    if (isinstance(w, collections.abc.Iterable) and
             not isinstance(w, six.string_types)):
         cls = type(w)
         if cls == pp.ParseResults:
