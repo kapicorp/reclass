@@ -1,0 +1,14 @@
+parameters:
+  base:
+    =_mixed_lookup:
+      v1:
+        registry: ghcr.io
+        repository: path/to/image
+        tag: v1.2.0
+      v2: ${base:image}
+
+    version: v2
+    image:
+      registry: ghcr.io
+      repository: path/to/image
+      tag: v2.4.0

@@ -1,0 +1,5 @@
+parameters:
+  build:
+    inputs:
+      - type: https
+        source: https://example.com/downloads/${base:_mixed_lookup:${base:version}:tag}/
