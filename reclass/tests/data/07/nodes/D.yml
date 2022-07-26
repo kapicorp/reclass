@@ -1,0 +1,7 @@
+classes:
+  - global
+  - override
+
+parameters:
+  expected_apps:
+    - foo

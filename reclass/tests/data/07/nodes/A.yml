@@ -1,0 +1,10 @@
+classes:
+  - cls1
+  - cls2
+
+applications:
+  - foo
+
+parameters:
+  expected_apps:
+    - foo

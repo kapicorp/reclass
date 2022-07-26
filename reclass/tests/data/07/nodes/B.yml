@@ -1,0 +1,6 @@
+classes:
+  - cls2
+  - cls1
+
+parameters:
+  expected_apps: []
