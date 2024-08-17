@@ -23,6 +23,21 @@ class Applications(Classes):
     a reference of the negation is kept, in case the instance is later used to
     extend another instance, in which case the negations should apply to the
     instance to be extended.
+
+    Negations are dropped after they've been applied once, so that patterns like
+
+    ```
+    applications:
+      - item
+
+    applications:
+      - ~item
+
+    applications:
+      - item
+    ```
+
+    result in `item` being present in the final list.
     '''
     DEFAULT_NEGATION_PREFIX = '~'
 
@@ -37,12 +52,17 @@ class Applications(Classes):
         self._assert_is_string(item)
         if item.startswith(self.negation_prefix):
             item = item[self._offset:]
-            self._negations.append(item)
             try:
                 self._items.remove(item)
             except ValueError:
-                pass
+                # Only keep the negation if we couldn't remove the indicated item.
+                self._negations.append(item)
+        elif item in self._negations:
+            # Remove previously negated items from the negations list instead of
+            # inserting them into the list.
+            self._negations.remove(item)
         else:
+            # Insert non-negated items if they're not in our negations list already.
             super(Applications, self)._append_if_new(item)
 
     def merge_unique(self, iterable):
@@ -53,6 +73,8 @@ class Applications(Classes):
                 try:
                     self._items.remove(negation)
                 except ValueError:
+                    # only remember negations which we didn't process during the merge
+                    self._negations.append(negation)
                     pass
             iterable = iterable.as_list()
         for i in iterable:

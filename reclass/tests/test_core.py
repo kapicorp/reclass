@@ -123,5 +123,18 @@ class TestCore(unittest.TestCase):
         self.assertEqual(A_node['applications'], A_node['parameters']['expected_apps'])
         self.assertEqual(B_node['applications'], B_node['parameters']['expected_apps'])
 
+    def test_application_removal_before_insertion(self):
+        reclass = self._core('07')
+
+        A_node = reclass.nodeinfo('A')
+        B_node = reclass.nodeinfo('B')
+        C_node = reclass.nodeinfo('C')
+        D_node = reclass.nodeinfo('D')
+
+        self.assertEqual(A_node['applications'], A_node['parameters']['expected_apps'])
+        self.assertEqual(B_node['applications'], B_node['parameters']['expected_apps'])
+        self.assertEqual(C_node['applications'], C_node['parameters']['expected_apps'])
+        self.assertEqual(D_node['applications'], D_node['parameters']['expected_apps'])
+
 if __name__ == '__main__':
     unittest.main()
