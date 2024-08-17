@@ -67,6 +67,8 @@ class DictPath(object):
         elif isinstance(contents, list):
             self._parts = contents
         elif isinstance(contents, six.string_types):
+            # parse the default value from contents, strip default section (||...) from parts            
+            contents, self.default = self._split_default(contents)
             self._parts = self._split_string(contents)
         elif isinstance(contents, tuple):
             self._parts = list(contents)
@@ -114,6 +116,18 @@ class DictPath(object):
 
     def _split_string(self, string):
         return re.split(r'(?<!\\)' + re.escape(self._delim), string)
+
+    def _split_default(self, string):
+        """
+        splits reference tag 'my:tag||default-value' into two parts
+        """
+        parts = string.split("||")
+        if not parts: 
+            return None # no contents at all
+        elif len(parts) == 1:
+            return parts[0], None # no default
+        else:
+            return parts[:-1][0], parts[-1] # contain '||' in contents and use just the last '||'
 
     def key_parts(self):
         return self._parts[:-1]

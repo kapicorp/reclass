@@ -414,6 +414,20 @@ class TestParametersNoMock(unittest.TestCase):
         p.interpolate()
         self.assertEqual(p.as_dict(), r)
 
+    def test_nested_references_default_exists(self):
+        values = {"a": "value", "b": "${not:existing||${a}}"}
+        reference = {"a": "value", "b": "value"}
+        parameters = Parameters(values, SETTINGS, '')
+        parameters.interpolate()
+        self.assertEqual(parameters.as_dict(), reference)
+
+    def test_nested_references_default_exists(self):
+        values = {"a": "value", "b": "${not:existing||${again||fallback}}"}
+        reference = {"a": "value", "b": "fallback"}
+        parameters = Parameters(values, SETTINGS, '')
+        parameters.interpolate()
+        self.assertEqual(parameters.as_dict(), reference)
+
     def test_stray_occurrence_overwrites_during_interpolation(self):
         p1 = Parameters({'r' : 1, 'b': '${r}'}, SETTINGS, '')
         p2 = Parameters({'b' : 2}, SETTINGS, '')

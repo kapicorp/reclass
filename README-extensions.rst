@@ -203,6 +203,46 @@ The ``${beta:${alpha:two}}`` construct first resolves the ``${alpha:two}`` refer
 the reference ``${beta:a}`` to the value 99.
 
 
+Default values
+-----------------
+
+References can now have a default value, if the reference couldn't get resolved, for example:
+
+.. code-block:: yaml
+
+  # nodes/node1.yml
+  parameters:
+    myvalue: ${not:existing:ref||default}
+
+``reclass.py --nodeinfo node1`` then gives:
+
+.. code-block:: yaml
+
+  parameters:
+    myvalue: default
+
+The ``${not:existing:ref||default}`` construct searches for a value at ``not:existing:ref``, and then because it can't find any, it will take the default value.
+
+This works for nested references as well:
+
+.. code-block:: yaml
+
+  # nodes/node1.yml
+  parameters:
+    default: 123
+    a: ${not:existing:ref||${default}}
+    b: ${not:existing:ref||${not:existing:default||fallback}}
+
+``reclass.py --nodeinfo node1`` then gives:
+
+.. code-block:: yaml
+
+  parameters:
+    default: 123
+    a: 123
+    b: fallback
+
+
 Ignore overwritten missing references
 -------------------------------------
 
