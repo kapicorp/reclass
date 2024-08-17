@@ -17,7 +17,7 @@ class TestScaItem(unittest.TestCase):
 
         result = scalar2.merge_over(scalar1)
 
-        self.assertEquals(result.contents, scalar2.contents)
+        self.assertEqual(result.contents, scalar2.contents)
 
     def test_merge_over_merge_composite(self):
         scalar1 = CompItem(Value(1, SETTINGS, ''), SETTINGS)
@@ -25,7 +25,7 @@ class TestScaItem(unittest.TestCase):
 
         result = scalar2.merge_over(scalar1)
 
-        self.assertEquals(result.contents, scalar2.contents)
+        self.assertEqual(result.contents, scalar2.contents)
 
     def test_merge_other_types_not_allowed(self):
         other = type('Other', (object,), {'type': 34})

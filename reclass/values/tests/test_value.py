@@ -41,7 +41,7 @@ class TestValue(unittest.TestCase):
         s = 'my cat likes to hide in boxes'
         tv = Value(s, SETTINGS, '')
         self.assertFalse(tv.has_references)
-        self.assertEquals(tv.render(CONTEXT, None), s)
+        self.assertEqual(tv.render(CONTEXT, None), s)
 
     def _test_solo_ref(self, key):
         s = _var(key)

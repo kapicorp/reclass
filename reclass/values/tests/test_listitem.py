@@ -18,7 +18,7 @@ class TestListItem(unittest.TestCase):
 
         result = listitem2.merge_over(listitem1)
 
-        self.assertEquals(result.contents, expected.contents)
+        self.assertEqual(result.contents, expected.contents)
 
     def test_merge_other_types_not_allowed(self):
         other = type('Other', (object,), {'type': 34})

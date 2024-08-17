@@ -22,7 +22,7 @@ class TestItemWithReferences(unittest.TestCase):
 
         iwr = ItemWithReferences([phonyitem], {})
 
-        self.assertEquals(iwr.get_references(), [1])
+        self.assertEqual(iwr.get_references(), [1])
         self.assertTrue(iwr.allRefs)
 
     def test_assembleRef_partial(self):
@@ -33,7 +33,7 @@ class TestItemWithReferences(unittest.TestCase):
 
         iwr = ItemWithReferences([phonyitem], {})
 
-        self.assertEquals(iwr.get_references(), [1])
+        self.assertEqual(iwr.get_references(), [1])
         self.assertFalse(iwr.allRefs)
 
 
@@ -42,7 +42,7 @@ class TestContainerItem(unittest.TestCase):
     def test_render(self):
         container = ContainerItem('foo', SETTINGS)
 
-        self.assertEquals(container.render(None, None), 'foo')
+        self.assertEqual(container.render(None, None), 'foo')
 
 if __name__ == '__main__':
     unittest.main()
