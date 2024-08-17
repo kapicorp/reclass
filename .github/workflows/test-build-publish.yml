@@ -1,0 +1,51 @@
+---
+name: Test Reclass
+run-name: PyTest tests for ${{ github.actor }} on branch ${{ github.ref_name }}
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+on: 
+  push:
+    branches:
+      - master
+      - main
+
+  release:
+    types: [created]
+
+  pull_request:
+
+jobs:
+  test:
+    name: python ${{ matrix.python-version }} tests
+    runs-on: ubuntu-latest
+    if: success() || failure()   # Continue running if other jobs fail
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    steps:
+      - name: Checkout kapitan recursively
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          cache: 'pip'
+          python-version: ${{ matrix.python-version }}
+      - name: Install libraries dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-md pytest-emoji mock
+      - name: Run pytest
+        uses: pavelzw/pytest-action@v2
+        with:
+          verbose: true
+          emoji: false
+          job-summary: true
+          custom-arguments: '-q'
+          click-to-expand: true
+          report-title: 'Reclass Tests'

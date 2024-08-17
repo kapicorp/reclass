@@ -94,7 +94,7 @@ class TestRefParser(unittest.TestCase):
 
         result = pf.listify(parser.parseString(instring).asList())
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
 
 
 @ddt.ddt
@@ -109,7 +109,7 @@ class TestSimpleRefParser(unittest.TestCase):
 
         result = pf.listify(parser.parseString(instring).asList())
 
-        self.assertEquals(expected, result)
+        self.assertEqual(expected, result)
 
 
 if __name__ == '__main__':

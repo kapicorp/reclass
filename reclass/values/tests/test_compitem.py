@@ -30,7 +30,7 @@ class TestCompItem(unittest.TestCase):
         composite = CompItem([val1], SETTINGS)
 
         self.assertTrue(composite.has_references)
-        self.assertEquals(composite.get_references(), expected_refs)
+        self.assertEqual(composite.get_references(), expected_refs)
 
     def test_assembleRefs_one_item_with_two_refs(self):
         val1 = Value('${foo}${bar}',  SETTINGS, '')
@@ -39,7 +39,7 @@ class TestCompItem(unittest.TestCase):
         composite = CompItem([val1], SETTINGS)
 
         self.assertTrue(composite.has_references)
-        self.assertEquals(composite.get_references(), expected_refs)
+        self.assertEqual(composite.get_references(), expected_refs)
 
     def test_assembleRefs_two_items_one_with_one_ref_one_without(self):
         val1 = Value('${foo}bar',  SETTINGS, '')
@@ -49,7 +49,7 @@ class TestCompItem(unittest.TestCase):
         composite = CompItem([val1, val2], SETTINGS)
 
         self.assertTrue(composite.has_references)
-        self.assertEquals(composite.get_references(), expected_refs)
+        self.assertEqual(composite.get_references(), expected_refs)
 
     def test_assembleRefs_two_items_both_with_one_ref(self):
         val1 = Value('${foo}',  SETTINGS, '')
@@ -59,7 +59,7 @@ class TestCompItem(unittest.TestCase):
         composite = CompItem([val1, val2], SETTINGS)
 
         self.assertTrue(composite.has_references)
-        self.assertEquals(composite.get_references(), expected_refs)
+        self.assertEqual(composite.get_references(), expected_refs)
 
     def test_assembleRefs_two_items_with_two_refs(self):
         val1 = Value('${foo}${baz}',  SETTINGS, '')
@@ -69,7 +69,7 @@ class TestCompItem(unittest.TestCase):
         composite = CompItem([val1, val2], SETTINGS)
 
         self.assertTrue(composite.has_references)
-        self.assertEquals(composite.get_references(), expected_refs)
+        self.assertEqual(composite.get_references(), expected_refs)
 
     def test_string_representation(self):
         composite = CompItem(Value(1, SETTINGS, ''), SETTINGS)
@@ -77,14 +77,14 @@ class TestCompItem(unittest.TestCase):
 
         result = str(composite)
 
-        self.assertEquals(result, expected)
+        self.assertEqual(result, expected)
 
     def test_render_single_item(self):
         val1 = Value('${foo}',  SETTINGS, '')
 
         composite = CompItem([val1], SETTINGS)
 
-        self.assertEquals(1, composite.render({'foo': 1}, None))
+        self.assertEqual(1, composite.render({'foo': 1}, None))
 
 
     def test_render_multiple_items(self):
@@ -93,7 +93,7 @@ class TestCompItem(unittest.TestCase):
 
         composite = CompItem([val1, val2], SETTINGS)
 
-        self.assertEquals('12', composite.render({'foo': 1, 'bar': 2}, None))
+        self.assertEqual('12', composite.render({'foo': 1, 'bar': 2}, None))
 
     def test_merge_over_merge_scalar(self):
         val1 = Value(None, SETTINGS, '')
@@ -102,7 +102,7 @@ class TestCompItem(unittest.TestCase):
 
         result = composite.merge_over(scalar)
 
-        self.assertEquals(result, composite)
+        self.assertEqual(result, composite)
 
     def test_merge_over_merge_composite(self):
         val1 = Value(None, SETTINGS, '')
@@ -112,7 +112,7 @@ class TestCompItem(unittest.TestCase):
 
         result = composite2.merge_over(composite1)
 
-        self.assertEquals(result, composite2)
+        self.assertEqual(result, composite2)
 
     def test_merge_other_types_not_allowed(self):
         other = type('Other', (object,), {'type': 34})

@@ -23,7 +23,7 @@ class TestRefItem(unittest.TestCase):
 
         iwr = RefItem([phonyitem], {})
 
-        self.assertEquals(iwr.get_references(), ['foo', 'bar'])
+        self.assertEqual(iwr.get_references(), ['foo', 'bar'])
         self.assertTrue(iwr.allRefs)
 
     def test_assembleRefs_failedrefs(self):
@@ -34,7 +34,7 @@ class TestRefItem(unittest.TestCase):
 
         iwr = RefItem([phonyitem], {})
 
-        self.assertEquals(iwr.get_references(), ['foo'])
+        self.assertEqual(iwr.get_references(), ['foo'])
         self.assertFalse(iwr.allRefs)
 
     def test__resolve_ok(self):
@@ -42,7 +42,7 @@ class TestRefItem(unittest.TestCase):
 
         result = reference._resolve('foo:bar', {'foo':{'bar': 1}})
 
-        self.assertEquals(result, 1)
+        self.assertEqual(result, 1)
 
     def test__resolve_fails(self):
         refitem = RefItem('', Settings({'delimiter': ':'}))
