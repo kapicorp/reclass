@@ -18,15 +18,6 @@ on:
   pull_request:
 
 jobs:
-  lint:
-    name: linter
-    runs-on: ubuntu-latest
-    if: success() || failure()  # Continue running if other jobs fail
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-      - uses: psf/black@main
-  
   test:
     name: python ${{ matrix.python-version }} tests
     runs-on: ubuntu-latest
@@ -54,7 +45,6 @@ jobs:
           verbose: true
           emoji: false
           job-summary: true
-          custom-pytest: poetry run pytest
           custom-arguments: '-q'
           click-to-expand: true
           report-title: 'Reclass Tests'
