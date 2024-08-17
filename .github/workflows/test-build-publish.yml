@@ -39,7 +39,7 @@ jobs:
       - name: Install libraries dependencies
         run: |
           pip install -r requirements.txt
-          pip install pytest pytest-md pytest-emoji
+          pip install pytest pytest-md pytest-emoji mock
       - name: Run pytest
         uses: pavelzw/pytest-action@v2
         with:
