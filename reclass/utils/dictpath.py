@@ -59,8 +59,9 @@ class DictPath(object):
     level down the nested dictionary.
     '''
 
-    def __init__(self, delim, contents=None):
+    def __init__(self, delim, contents=None, path=''):
         self._delim = delim
+        self._refpath = path  # path where the reference lays
 
         if contents is None:
             self._parts = []
@@ -122,6 +123,34 @@ class DictPath(object):
         return DictPath(self._delim, self._parts + [key])
 
     def get_value(self, base):
+        """
+        get the value from a given key (in self._parts) and a dictionary (base)
+        relative references are allowed, e.g. ${:start:from:here}
+        """
+        # only apply relative paths if keyword is specified 
+        if self._parts and self._parts[0] in ("", "~", ".self_name"):
+            parts = str(self._refpath).split(":")
+            for part in self._parts:
+                if not part:  
+                    # e.g. ${::key} --> go one level back
+                    parts = parts[:-1]
+                elif part == "~":  
+                    # e.g. ${~:key} --> go to root (parameters)
+                    parts = []
+                elif (part == ".self_name"):
+                    # e.g. ${:.self_name} returns parent key name
+                    try:
+                        return parts[-1]
+                    except IndexError:
+                        # You can't access values outside of '.parameters'. Using 'parameters'.
+                        # We could throw a more precise error ...
+                        return "parameters"
+                else:  
+                    # you can mix normal key stepping with new features
+                    parts.append(part)
+            self._parts = parts
+
+        # get the value from the dictionary
         return self._get_innermost_container(base)[self._get_key()]
 
     def set_value(self, base, value):

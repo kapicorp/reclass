@@ -12,6 +12,7 @@ from .parser import Parser
 from .dictitem import DictItem
 from .listitem import ListItem
 from .scaitem import ScaItem
+from .refitem import RefItem
 from reclass.errors import InterpolationError
 
 from six import string_types
@@ -20,9 +21,10 @@ class Value(object):
 
     _parser = Parser()
 
-    def __init__(self, value, settings, uri, parse_string=True):
+    def __init__(self, value, settings, uri, parse_string=True, path=''):
         self._settings = settings
         self.uri = uri
+        self.path = path
         self.overwrite = False
         self.constant = False
         if isinstance(value, string_types):
@@ -87,6 +89,8 @@ class Value(object):
 
     def render(self, context, inventory):
         try:
+            if isinstance(self._item, RefItem):
+                return self._item.render(context, inventory, path=self.path)
             return self._item.render(context, inventory)
         except InterpolationError as e:
             e.uri = self.uri

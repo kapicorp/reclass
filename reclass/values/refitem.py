@@ -24,18 +24,18 @@ class RefItem(item.ItemWithReferences):
         result = [str(i.render(context, inventory)) for i in self.contents]
         return "".join(result)
 
-    def _resolve(self, ref, context):
-        path = DictPath(self._settings.delimiter, ref)
+    def _resolve(self, ref, context, path=''):
+        refpath = DictPath(self._settings.delimiter, ref, path=path)
         try:
-            return path.get_value(context)
+            return refpath.get_value(context)
         except (KeyError, TypeError) as e:
             raise ResolveError(ref)
 
-    def render(self, context, inventory):
+    def render(self, context, inventory, path=''):
         #strings = [str(i.render(context, inventory)) for i in self.contents]
         #return self._resolve("".join(strings), context)
         return self._resolve(self._flatten_contents(context, inventory),
-                             context)
+                             context, path=path)
 
     def __str__(self):
         strings = [str(i) for i in self.contents]
