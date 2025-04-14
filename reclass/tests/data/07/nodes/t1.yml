@@ -1,0 +1,13 @@
+classes:
+  - base
+  - build
+  - global
+  - target
+parameters:
+  _instance: t1
+  kapitan:
+    vars:
+      target: t1
+
+# Expected value for `parameters.build.inputs.0.source:
+# https://example.com/downloads/v1.2.0

@@ -317,6 +317,16 @@ class Parameters(object):
             # list or dict has already been visited by _interpolate_inner
             del self._unrendered[path]
             return
+        # Refresh internal ref cache for the unrendered value with our current context
+        # to ensure that flattened cached references are updated if necessary if the
+        # value is part of the parameters tree of multiple nodes.
+        #
+        # Side-note (@simu,2022-05-27): I haven't quite determined when a value becomes
+        # part of the parameters tree of multiple nodes, but I've observed it to be the
+        # case by looking at `hex(id(value))` for the same parameters key in multiple
+        # targets in an example inventory which results in a ResolveError without the
+        # line below.
+        value.assembleRefs(self._base)
         self._unrendered[path] = False
         self._interpolate_references(path, value, inventory)
         new = self._interpolate_render_value(path, value, inventory)

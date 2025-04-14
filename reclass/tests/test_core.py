@@ -123,5 +123,14 @@ class TestCore(unittest.TestCase):
         self.assertEqual(A_node['applications'], A_node['parameters']['expected_apps'])
         self.assertEqual(B_node['applications'], B_node['parameters']['expected_apps'])
 
+    def test_mixed_value_constant_parameter_lookup(self):
+        reclass = self._core("07")
+
+        t1 = reclass.nodeinfo("t1")
+        t2 = reclass.nodeinfo("t2")
+
+        self.assertEqual(t1["parameters"]["build"]["inputs"][0]["source"], "https://example.com/downloads/v1.2.0/")
+        self.assertEqual(t2["parameters"]["build"]["inputs"][0]["source"], "https://example.com/downloads/v2.4.0/")
+
 if __name__ == '__main__':
     unittest.main()
